@@ -61,20 +61,20 @@
                                             <div class="form-group">
                                                 <label for="category">Product<span
                                                         class="text-danger">*</span></label>
-                                                <select name="product_id" class="form-control product_id" id="">
+                                                <select name="product_id" class="form-control product_id" onchange="getPrice(0)"  id="product_id_0">
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="price">Qty<span class="text-danger">*</span></label>
-                                                <input type="number" name="qty[]" class="form-control">
+                                                <input type="number" name="qty[]" data-key="0" class="form-control order_qty">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="price">Price<span class="text-danger">*</span></label>
-                                                <input type="number" name="price[]" class="form-control" readonly>
+                                                <input type="number" name="price[]" data-price-id="price_0" value="" class="form-control" id="price_0" readonly>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -205,13 +205,13 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="price">Qty<span class="text-danger">*</span></label>
-                                                <input type="number" name="qty[]" id="qty_${numbervar}" class="form-control">
+                                                <input type="number" name="qty[]" data-key="${numbervar}" id="qty_${numbervar}" class="form-control order_qty">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="price">Price<span class="text-danger">*</span></label>
-                                                <input type="number" name="price[]"  class="form-control" id="price_${numbervar}" readonly>
+                                                <input type="number" name="price[]" data-price-id="price_${numbervar}" value=""  class="form-control" id="price_${numbervar}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -249,16 +249,58 @@
             var ddl = $(".product_id").clone();
             ddl.attr("id", 'product_id_' + numbervar);
             ddl.attr("name", "product_id[]");
+            ddl.attr("data-product-id", numbervar); 
             ddl.attr("class", "form-control");
             $('#append_product_dropdown__' + numbervar).empty();
             $('#append_product_dropdown_' + numbervar).append(ddl);
+            $('#product_id_' + numbervar).change(function() {
+                     getPrice(numbervar);
+             });
 
         }
 
         //get product price on change
-        $(document).on('change','.product_id',function(){
-            
+        function getPrice(id){
+           
+            var product_id = $('#product_id_'+id).val();
+            if (product_id != '') {
+                var form_data = new FormData();
+                form_data.append('id', product_id);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('getProductPrice') }}", // your php file name
+                    data: form_data,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(res) {
+                        if (res.statusCode == 200) {
+                               $('#price_'+id).val(res.productPrice.price);
+                        } else {
+                            
+                        }
+
+                    },
+                    error: function(errorString) {}
+                });
+            } 
+               
+        }
+        //on change qty update product price
+        $(document).on('change','.order_qty',function(){
+            var key = $(this).attr('data-key');
+            console.log(key);
+            var product_price  = $('#price_'+key).val();
+            var qty = $(this).val();
+            if(productPrice && qty){
+                var total_price  = Number(productPrice) * Number(qty);
+                $('#total_price_'+key).val(total_price);
+            }
         })
+        
     </script>
 </body>
 

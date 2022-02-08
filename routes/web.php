@@ -19,5 +19,6 @@ Route::prefix('order')->group(function () {
     Route::get('/', [Controllers\OrderController::class, 'index'])->name('order.view');
 });
 Route::prefix('product')->group(function () {
-    Route::post('get-product-by-cat', [Controllers\ProductController::class, 'getProductByCategory'])->name('getProductByCat');
+    Route::post('product-cat', [Controllers\ProductController::class, 'getProductByCategory'])->name('getProductByCat');
+    Route::post('product-price', [Controllers\ProductController::class, 'getProductPrice'])->name('getProductPrice');
 });
