@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::prefix('order')->group(function () {
+    Route::get('/', [Controllers\OrderController::class, 'index'])->name('order.view');
+});
+Route::prefix('product')->group(function () {
+    Route::post('get-product-by-cat', [Controllers\ProductController::class, 'getProductByCategory'])->name('getProductByCat');
 });
