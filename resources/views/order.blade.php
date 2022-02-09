@@ -301,33 +301,33 @@
             }
         })
 
-        function additionalValidtion() {
-            $('.condition').each(function() {
-                var id = $(this).attr('id');
-                $('#'+id).rules("add",{
-                    required: true
-                });
-            });
+        // function additionalValidtion() {
+        //     $('.condition').each(function() {
+        //         var id = $(this).attr('id');
+        //         $('#'+id).rules("add",{
+        //             required: true
+        //         });
+        //     });
 
-            $('.v_storage').each(function() {
-                var id = $(this).attr('id');
-                $('#'+id).rules("add",{
-                    required: true
-                });
-            }); 
-            $('.v_price').each(function() {
-                var id = $(this).attr('id');
-                $('#'+id).rules("add",{
-                    required: true
-                });
-            }); 
-            $('.quality_description').each(function() {
-                var id = $(this).attr('id');
-                $('#'+id).rules("add",{
-                    required: true
-                });
-            });
-        }
+        //     $('.v_storage').each(function() {
+        //         var id = $(this).attr('id');
+        //         $('#'+id).rules("add",{
+        //             required: true
+        //         });
+        //     }); 
+        //     $('.v_price').each(function() {
+        //         var id = $(this).attr('id');
+        //         $('#'+id).rules("add",{
+        //             required: true
+        //         });
+        //     }); 
+        //     $('.quality_description').each(function() {
+        //         var id = $(this).attr('id');
+        //         $('#'+id).rules("add",{
+        //             required: true
+        //         });
+        //     });
+        // }
         
     </script>
 </body>
